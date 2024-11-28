@@ -5,7 +5,7 @@ const startBrowser = async () => {
   try {
     browser = await puppeteer.launch({
       // Có hiện UI của Chrome hay không, false là có
-      headless: false,
+      headless: true,
       // Chrome sử dụng multiple layers của sandbox để tránh những nội dụng web không đáng tin cậy
       // Nếu tin tưởng content đúng thì set như này
       args: ["--disable-setuid-sandbox"],
