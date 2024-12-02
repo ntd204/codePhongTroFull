@@ -1,7 +1,8 @@
 const scrapers = require("./scraper");
+fs = require("fs");
 
 const scrapeController = async (browserInstance) => {
-  const url = "https://phongtro123.com/cho-thue-phong-tro";
+  const url = "https://phongtro123.com/cho-thue-phong-tro/";
   const indexs = [0, 1, 2, 3, 4];
   try {
     let browser = await browserInstance;
@@ -11,7 +12,13 @@ const scrapeController = async (browserInstance) => {
       indexs.some((i) => i === index)
     );
 
-    await scrapers.scraper(browser, selectedCategories[0].link);
+    let result = await scrapers.scraper(browser, selectedCategories[0].link);
+    fs.writeFile("phongtro.json", JSON.stringify(result), (err) => {
+      if (err) {
+        console.log("Ghi data vào file json thất bại: " + err);
+      }
+      console.log("Thêm data thành công");
+    });
   } catch (error) {
     console.log("Lỗi ở scrape controller: " + error);
   }
