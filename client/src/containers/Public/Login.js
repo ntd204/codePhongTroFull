@@ -1,13 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import { InputForm, Button } from "../../components";
 import { useLocation } from "react-router-dom";
+import { apiRegister } from "../../services/auth";
+import * as actions from "../../store/actions";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
+
   const [isRegister, setIsRegister] = useState(location.state?.flag);
+  const [payload, setPayLoad] = useState({
+    name: "",
+    phone: "",
+    password: "",
+  });
+
   useEffect(() => {
     setIsRegister(location.state?.flag);
   }, [location.state?.flag]);
+
+  const handleSubmit = async () => {
+    console.log(payload);
+    dispatch(actions.register(payload));
+    // console.log(response);
+  };
 
   return (
     <div
@@ -19,14 +36,32 @@ const Login = () => {
         {isRegister ? "Đăng kí tài khoản" : "Đăng nhập"}
       </h3>
       <div className="w-full flex flex-col gap-5">
-        {isRegister && <InputForm label={"HỌ TÊN"} />}
-        <InputForm label={"SỐ ĐIỆN THOẠI"} />
-        <InputForm label={"MẬT KHẨU"} />
+        {isRegister && (
+          <InputForm
+            label={"HỌ TÊN"}
+            value={payload.name}
+            setValue={setPayLoad}
+            type={"name"}
+          />
+        )}
+        <InputForm
+          label={"SỐ ĐIỆN THOẠI"}
+          value={payload.phone}
+          setValue={setPayLoad}
+          type={"phone"}
+        />
+        <InputForm
+          label={"MẬT KHẨU"}
+          value={payload.password}
+          setValue={setPayLoad}
+          type={"password"}
+        />
         <Button
           text={isRegister ? "Đăng kí" : "Đăng nhập"}
           bgColor="bg-secondary1"
           textColor="text-white"
           fullWidth
+          onClick={handleSubmit}
         />
       </div>
       <div className="mt-7 flex items-center justify-between cursor-pointer">
