@@ -1,6 +1,13 @@
 import React from "react";
 
-const InputForm = ({ label, value, setValue, type }) => {
+const InputForm = ({
+  label,
+  value,
+  setValue,
+  type,
+  invalidFields,
+  setInvalidFields,
+}) => {
   return (
     <div>
       <label htmlFor="phone" className="text-xs">
@@ -14,7 +21,14 @@ const InputForm = ({ label, value, setValue, type }) => {
         onChange={(e) =>
           setValue((prev) => ({ ...prev, [type]: e.target.value }))
         }
+        onFocus={() => setInvalidFields([])}
       />
+      {invalidFields.length > 0 &&
+        invalidFields.some((i) => i.name === type) && (
+          <small className="text-red-500 italic">
+            {invalidFields.find((i) => i.name === type)?.message}
+          </small>
+        )}
     </div>
   );
 };

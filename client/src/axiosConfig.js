@@ -3,10 +3,12 @@ import axios from "axios";
 const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
 });
+
+//Add a request interceptor
 instance.interceptors.request.use(
+  //Do something before the request is sent
+  //Gắn token vào header
   function (config) {
-    const token = localStorage.getItem("persist:auth");
-    console.log(token);
     return config;
   },
   function (error) {
@@ -15,4 +17,14 @@ instance.interceptors.request.use(
   }
 );
 
+//Add a response interceptor
+instance.interceptors.response.use(
+  //Refresh token
+  function (response) {
+    return response;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 export default instance;
