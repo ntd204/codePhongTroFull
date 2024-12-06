@@ -3,12 +3,13 @@ import { InputForm, Button } from "../../components";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as actions from "../../store/actions";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, msg, update } = useSelector((state) => state.auth);
 
   const [isRegister, setIsRegister] = useState(location.state?.flag);
   const [invalidFields, setInvalidFields] = useState([]);
@@ -24,7 +25,11 @@ const Login = () => {
 
   useEffect(() => {
     isLoggedIn && navigate("/");
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    msg && Swal.fire("Oops !", msg, "error");
+  }, [msg, update]);
 
   const handleSubmit = async () => {
     let finalPayload = isRegister
@@ -107,7 +112,7 @@ const Login = () => {
             label={"HỌ TÊN"}
             value={payload.name}
             setValue={setPayLoad}
-            type={"name"}
+            keyPayload={"name"}
           />
         )}
         <InputForm
@@ -116,7 +121,7 @@ const Login = () => {
           label={"SỐ ĐIỆN THOẠI"}
           value={payload.phone}
           setValue={setPayLoad}
-          type={"phone"}
+          keyPayload={"phone"}
         />
         <InputForm
           setInvalidFields={setInvalidFields}
@@ -124,7 +129,8 @@ const Login = () => {
           label={"MẬT KHẨU"}
           value={payload.password}
           setValue={setPayLoad}
-          type={"password"}
+          keyPayload={"password"}
+          type="password"
         />
         <Button
           text={isRegister ? "Đăng kí" : "Đăng nhập"}

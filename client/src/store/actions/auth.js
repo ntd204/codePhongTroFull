@@ -5,15 +5,14 @@ export const register = (payload) => async (dispatch) => {
   try {
     const response = await apiRegister(payload);
     if (response?.data?.response.err === 0) {
-      // localStorage.setItem("token", response.data?.response.token);
       dispatch({
         type: actionTypes.REGISTER_SUCCESS,
-        data: response.data.token,
+        data: response.data?.response.token,
       });
     } else {
       dispatch({
         type: actionTypes.REGISTER_FAIL,
-        data: response.data.msg,
+        data: response.data?.response.msg,
       });
     }
   } catch (error) {
@@ -30,12 +29,12 @@ export const login = (payload) => async (dispatch) => {
     if (response?.data?.response.err === 0) {
       dispatch({
         type: actionTypes.LOGIN_SUCCESS,
-        data: response.data.token,
+        data: response.data?.response.token,
       });
     } else {
       dispatch({
         type: actionTypes.LOGIN_FAIL,
-        data: response.data.msg,
+        data: response.data?.response.msg,
       });
     }
   } catch (error) {

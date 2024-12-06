@@ -1,12 +1,11 @@
 "use strict";
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Posts", {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       title: {
         type: Sequelize.STRING,
@@ -27,6 +26,15 @@ module.exports = {
       categoryCode: {
         type: Sequelize.STRING,
       },
+      priceCode: {
+        type: Sequelize.STRING,
+      },
+      areaCode: {
+        type: Sequelize.STRING,
+      },
+      provinceCode: {
+        type: Sequelize.STRING,
+      },
       description: {
         type: Sequelize.TEXT,
       },
@@ -38,6 +46,12 @@ module.exports = {
       },
       imagesId: {
         type: Sequelize.STRING,
+      },
+      priceNumber: {
+        type: Sequelize.FLOAT,
+      },
+      areaNumber: {
+        type: Sequelize.FLOAT,
       },
       createdAt: {
         allowNull: false,
