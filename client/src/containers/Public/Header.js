@@ -23,8 +23,8 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="w-full flex justify-center">
-      <div className="w-1100 flex items-center justify-between">
+    <div className="w-3/5 flex justify-center">
+      <div className="w-full flex items-center justify-between">
         <Link to={"/"}>
           <img
             src={logo}
