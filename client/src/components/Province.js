@@ -4,7 +4,7 @@ import { location } from "../ultils/constant";
 
 const Province = () => {
   return (
-    <div className="flex items-center justify-center gap-5 p-5 shadow-md cursor-pointer">
+    <div className="flex items-center justify-center gap-5 p-5">
       {location.map((item) => {
         return (
           <ProvinceBtn key={item.id} image={item.image} name={item.name} />
