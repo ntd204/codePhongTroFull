@@ -5,7 +5,6 @@ import initRouter from "./src/routes/index";
 import connectDatabase from "./src/config/connectDatabase";
 import generateCode from "./src/ultis/generateCode";
 
-// console.log(generateCode(4));
 const app = express();
 app.use(
   cors({
