@@ -1,42 +1,38 @@
 import React, { memo, useState } from "react";
 import icons from "../ultils/icons";
 
-const images = [
-  "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2024/05/25/346156342-912750189784159-8201713291621173062-n_1716642305.jpg",
-  "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2024/05/25/344287999-200282962867082-2291105629241911601-n_1716642303.jpg",
-  "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2024/05/25/344295635-159893796816891-3296185884470786401-n_1716642303.jpg",
-  "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2024/05/25/344668767-239524092063472-3669298212386847303-n_1716642304.jpg",
-];
+const indexs = [0, 1, 2, 3];
 
 const { GrStar, RiHeartFill, RiHeartLine, BsBookmarkStarFill } = icons;
 
-const Item = () => {
-  const [isHovered, setIsHovered] = useState([false]);
+const Item = ({
+  images,
+  user,
+  title,
+  star,
+  description,
+  attributes,
+  address,
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
   return (
-    <div className="w-full flex border-t border-orange-600 p-4">
+    <div className="w-full flex border-t border-orange-600 py-4">
       <div className="w-2/5 flex flex-wrap gap-[2px] items-center relative cursor-pointer">
-        <img
-          src={images[0]}
-          alt="preview"
-          className="w-[140px] h-[120px] object-cover"
-        />
-        <img
-          src={images[1]}
-          alt="preview"
-          className="w-[140px] h-[120px] object-cover"
-        />
-        <img
-          src={images[2]}
-          alt="preview"
-          className="w-[140px] h-[120px] object-cover"
-        />
-        <img
-          src={images[3]}
-          alt="preview"
-          className="w-[140px] h-[120px] object-cover"
-        />
-        <span className="bg-overlay-700 text-white px-2 rounded-md absolute left-1 bottom-1">
-          4 ảnh
+        {images.length > 0 &&
+          images
+            .filter((i, index) => indexs.some((i) => i === index))
+            ?.map((i, index) => {
+              return (
+                <img
+                  key={index}
+                  src={i}
+                  alt="preview"
+                  className="w-[140px] h-[120px] object-cover"
+                />
+              );
+            })}
+        <span className="bg-overlay-700 text-white px-2 rounded-md absolute left-1 bottom-4">
+          {`${images.length} ảnh`}
         </span>
         <span
           className="text-white absolute right-5 bottom-1"
@@ -58,21 +54,19 @@ const Item = () => {
             <GrStar className="star-item" size={18} color="yellow" />
             <GrStar className="star-item" size={18} color="yellow" />
             <GrStar className="star-item" size={18} color="yellow" />
-            CHO THUÊ CĂN HỘ HOẶC VĂN PHÒNG LÀM VIỆC
+            {title}
           </div>
           <div className="w-[10%] flex justify-end">
             <BsBookmarkStarFill size={24} color="orange" />
           </div>
         </div>
         <div className="my-2 flex items-center justify-around">
-          <span className="font-bold text-green-600">3.7 triệu/tháng</span>
-          <span>28m</span>
-          <span>Quận Tân Bình, Hồ Chí Minh</span>
+          <span className="font-bold text-green-600">{attributes?.price}</span>
+          <span>{attributes?.acreage}</span>
+          <span>{address}</span>
         </div>
-        <p className="text-gray-500">
-          --------------------------------------------- 👉 Tui có nhận code các
-          project đồ án hoặc website theo yêu cầu nha. Cứ inbox trao đổi ạ 🙏
-          Ủng hộ tui thì dô đây nha:
+        <p className="text-gray-500 w-full h-[50px] text-ellipsis overflow-hidden">
+          {description}
         </p>
         <div className="flex items-center my-5 justify-between">
           <div className="flex items-center">
@@ -81,14 +75,14 @@ const Item = () => {
               alt="avatar"
               className="w-[30px] h-[30px] object-cover"
             />
-            <p>Tuệ Thu</p>
+            <p>{user?.name}</p>
           </div>
           <div className="flex items-center gap-1">
             <button
               type="button"
               className="bg-blue-700 text-white p-1 rounded-md"
             >
-              Gọi 3243242341424
+              {`Gọi ${user?.phone}`}
             </button>
             <button
               type="button"

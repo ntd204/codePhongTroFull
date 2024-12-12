@@ -12,7 +12,7 @@ import {
 
 function App() {
   return (
-    <div className="h-screen w-screen bg-primary">
+    <div className="bg-primary">
       <Routes>
         <Route path={path.HOME} element={<Home />}>
           <Route path="*" element={<Homepage />} />
