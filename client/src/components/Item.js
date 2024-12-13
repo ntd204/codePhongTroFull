@@ -1,5 +1,8 @@
 import React, { memo, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import icons from "../ultils/icons";
+import { formatVietnameseToString } from "../ultils/Common/formatVietNameseToString";
 
 const indexs = [0, 1, 2, 3];
 
@@ -13,11 +16,22 @@ const Item = ({
   description,
   attributes,
   address,
+  id,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+  const handleStar = (star) => {
+    let stars = [];
+    for (let i = 1; i <= +star; i++)
+      stars.push(<GrStar className="star-item" size={18} color="yellow" />);
+    return stars;
+  };
   return (
     <div className="w-full flex border-t border-orange-600 py-4">
-      <div className="w-2/5 flex flex-wrap gap-[2px] items-center relative cursor-pointer">
+      <Link
+        to={`chi-tiet/${formatVietnameseToString(title)}/${id}`}
+        className="w-2/5 flex flex-wrap gap-[2px] items-center relative cursor-pointer"
+      >
         {images.length > 0 &&
           images
             .filter((i, index) => indexs.some((i) => i === index))
@@ -45,15 +59,14 @@ const Item = ({
             <RiHeartLine size={26} />
           )}
         </span>
-      </div>
+      </Link>
       <div className="w-3/5">
         <div className="w-full flex justify-between gap-4">
           <div className="text-red-600 font-medium">
-            <GrStar className="star-item" size={18} color="yellow" />
-            <GrStar className="star-item" size={18} color="yellow" />
-            <GrStar className="star-item" size={18} color="yellow" />
-            <GrStar className="star-item" size={18} color="yellow" />
-            <GrStar className="star-item" size={18} color="yellow" />
+            {handleStar(+star).length > 0 &&
+              handleStar(+star).map((star, number) => {
+                return <span key={number}>{star}</span>;
+              })}
             {title}
           </div>
           <div className="w-[10%] flex justify-end">

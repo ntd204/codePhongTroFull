@@ -6,10 +6,10 @@ import { PageNumber } from "../../components";
 import icons from "../../ultils/icons";
 
 const { GrLinkNext } = icons;
-const Pagination = ({ number }) => {
+const Pagination = ({ page }) => {
   const { count, posts } = useSelector((state) => state.post);
   const [arrPage, setArrPage] = useState([]);
-  const [currentPage, setCurrentPage] = useState(+number);
+  const [currentPage, setCurrentPage] = useState(+page || 1);
   const [isHideEnd, setIsHideEnd] = useState(false);
   const [isHideStart, setIsHideStart] = useState(true);
 

@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useRef } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import logo from "../../assets/logowithoutbg.png";
@@ -13,6 +13,8 @@ const { IoIosAddCircleOutline } = icons;
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const headerRef = useRef();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const goLogin = useCallback((flag) => {
     navigate(path.LOGIN, { state: { flag }, replace: true });
@@ -21,9 +23,11 @@ const Header = () => {
   const goRegister = useCallback((flag) => {
     navigate(path.REGISTER, { state: { flag }, replace: true });
   }, []);
-
+  useEffect(() => {
+    headerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [searchParams.get("page")]);
   return (
-    <div className="w-3/5 flex justify-center">
+    <div ref={headerRef} className="w-3/5">
       <div className="w-full flex items-center justify-between">
         <Link to={"/"}>
           <img

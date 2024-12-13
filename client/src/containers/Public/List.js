@@ -1,19 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Item } from "../../components";
 import { getPostsLimit } from "../../store/actions/post";
 import { useDispatch, useSelector } from "react-redux";
 
-const List = () => {
+const List = ({ page }) => {
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.post);
+  const [currentTime, setCurrentTime] = useState(new Date());
   useEffect(() => {
-    dispatch(getPostsLimit(0));
+    let offset = page ? +page - 1 : 0;
+    dispatch(getPostsLimit(offset));
+  }, [page]);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000); // Cập nhật mỗi giây
+
+    return () => clearInterval(timer); // Xóa timer khi component bị unmount
   }, []);
   return (
     <div className="w-full p-2 bg-white shadow-md rounded-md px-6">
       <div className="flex items-center justify-between my-3">
         <h4 className="text-xl font-semibold ">Danh sách tin đăng</h4>
-        <span>Cập nhật:</span>
+        <span>
+          Cập nhật: {currentTime.getHours()}:{currentTime.getMinutes()}{" "}
+          {currentTime.toLocaleDateString()}
+        </span>
       </div>
       <div className="flex items-center gap-2 my-2">
         <span>Sắp xếp:</span>
@@ -33,6 +45,7 @@ const List = () => {
                 star={+item?.star}
                 title={item?.title}
                 user={item?.user}
+                id={item?.id}
               />
             );
           })}
