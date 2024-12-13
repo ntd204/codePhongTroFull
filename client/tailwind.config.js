@@ -18,6 +18,9 @@ module.exports = {
       cursor: {
         pointer: "pointer",
       },
+      flex: {
+        3: "3 3 0%",
+      },
     },
   },
   plugins: [],
