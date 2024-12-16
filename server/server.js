@@ -3,7 +3,6 @@ require("dotenv").config();
 import cors from "cors";
 import initRouter from "./src/routes/index";
 import connectDatabase from "./src/config/connectDatabase";
-import generateCode from "./src/ultis/generateCode";
 
 const app = express();
 app.use(
