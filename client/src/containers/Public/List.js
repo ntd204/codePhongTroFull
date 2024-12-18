@@ -19,7 +19,6 @@ const List = () => {
     params?.map((i) => {
       searchParamsObject = { ...searchParamsObject, [i[0]]: i[1] };
     });
-    console.log(searchParamsObject);
     dispatch(getPostsLimit(searchParamsObject));
   }, [searchParams]);
   useEffect(() => {
