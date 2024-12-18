@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { Button, Item } from "../../components";
 import { getPostsLimit } from "../../store/actions/post";
-import { useDispatch, useSelector } from "react-redux";
 
 const List = ({ page }) => {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const List = ({ page }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   useEffect(() => {
     let offset = page ? +page - 1 : 0;
-    dispatch(getPostsLimit(offset));
+    dispatch(getPostsLimit({ offset }));
   }, [page]);
   useEffect(() => {
     const timer = setInterval(() => {
