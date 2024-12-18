@@ -27,11 +27,10 @@ const ItemSidebar = ({ title, content, isDouble, type }) => {
   };
 
   const handleFilterPosts = (code) => {
-    dispatch(actions.getPostsLimit({ [type]: code }));
     navigate({
       pathname: location?.pathname,
       search: createSearchParams({
-        [type]: code,
+        priceCode: code,
       }).toString(),
     });
   };

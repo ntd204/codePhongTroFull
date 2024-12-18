@@ -3,15 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Item } from "../../components";
 import { getPostsLimit } from "../../store/actions/post";
+import { useSearchParams } from "react-router-dom";
 
-const List = ({ page }) => {
+const List = () => {
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
   const { posts } = useSelector((state) => state.post);
   const [currentTime, setCurrentTime] = useState(new Date());
   useEffect(() => {
-    let offset = page ? +page - 1 : 0;
-    dispatch(getPostsLimit({ offset }));
-  }, [page]);
+    let params = [];
+    for (let entry of searchParams.entries()) {
+      params.push(entry);
+    }
+    let searchParamsObject = {};
+    params?.map((i) => {
+      searchParamsObject = { ...searchParamsObject, [i[0]]: i[1] };
+    });
+    console.log(searchParamsObject);
+    dispatch(getPostsLimit(searchParamsObject));
+  }, [searchParams]);
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
