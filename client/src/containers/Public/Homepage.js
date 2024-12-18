@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { List, Pagination } from "./index";
 import { text } from "../../ultils/constant";
-import { ItemSidebar, Province } from "../..//components";
+import { ItemSidebar, Province, RelatedPost } from "../..//components";
 import * as actions from "../../store/actions";
 
 const Homepage = () => {
@@ -40,6 +40,7 @@ const Homepage = () => {
             content={areas}
             title="Xem theo diện tích"
           />
+          <RelatedPost />
         </div>
       </div>
     </div>
