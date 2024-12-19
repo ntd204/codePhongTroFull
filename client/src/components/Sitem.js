@@ -1,10 +1,16 @@
 import React, { memo } from "react";
+import moment from "moment";
+import "moment/locale/vi";
 
 const Sitem = ({ title, price, image, createdAt }) => {
+  const formatTime = (createdAt) => {
+    return moment(createdAt).fromNow();
+  };
+
   return (
     <div className="w-full flex items-center gap-2 py-2 border-b border-gray-300">
       <img
-        src="https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2024/05/16/img-2145_1715846260.jpg"
+        src={image[0]}
         alt="anh"
         className="w-[65px] h-[65px] object-cover flex-none rounded-md"
       />
@@ -15,7 +21,7 @@ const Sitem = ({ title, price, image, createdAt }) => {
         )}...`}</h4>
         <div className=" flex items-center justify-between w-full">
           <span className="text-sm font-medium text-green-500">{price}</span>
-          <span className="text-sm text-gray-300">{createdAt}</span>
+          <span className="text-sm text-gray-300">{formatTime(createdAt)}</span>
         </div>
       </div>
     </div>
