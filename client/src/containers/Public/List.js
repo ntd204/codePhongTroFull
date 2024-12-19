@@ -5,11 +5,12 @@ import { Button, Item } from "../../components";
 import { getPostsLimit } from "../../store/actions/post";
 import { useSearchParams } from "react-router-dom";
 
-const List = () => {
+const List = ({ categoryCode }) => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const { posts } = useSelector((state) => state.post);
   const [currentTime, setCurrentTime] = useState(new Date());
+
   useEffect(() => {
     let params = [];
     for (let entry of searchParams.entries()) {
@@ -18,9 +19,11 @@ const List = () => {
     let searchParamsObject = {};
     params?.map((i) => {
       searchParamsObject = { ...searchParamsObject, [i[0]]: i[1] };
+      if (categoryCode) searchParamsObject.categoryCode = categoryCode;
     });
     dispatch(getPostsLimit(searchParamsObject));
-  }, [searchParams]);
+  }, [searchParams, categoryCode]);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
