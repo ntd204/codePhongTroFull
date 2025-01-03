@@ -22,7 +22,8 @@ const Modal = ({ setIsShowModal, content, name }) => {
     const stackEl = document.getElementById("track");
     const stackReact = stackEl.getBoundingClientRect();
     let persent = Math.round(
-      ((e.clientX - stackReact.left) * 100) / stackReact.width
+      ((e.clientX - stackReact.left) * 100) / stackReact.width,
+      0
     );
     if (Math.abs(persent - persent1) <= Math.abs(persent - persent2)) {
       setPersent1(persent);
@@ -30,6 +31,9 @@ const Modal = ({ setIsShowModal, content, name }) => {
       setPersent2(persent);
     }
   };
+
+  const convert100to15 = (persent) =>
+    (Math.ceil(Math.round(persent * 1.5) / 5) * 5) / 10;
   return (
     <div
       onClick={() => {
@@ -76,8 +80,19 @@ const Modal = ({ setIsShowModal, content, name }) => {
           </div>
         )}
         {(name === "prices" || name === "areas") && (
-          <div className="p-12">
+          <div className="p-12 py-20">
             <div className="flex flex-col items-center justify-center relative">
+              <div className="z-30 absolute top-[-48px] font-bold text-xl text-orange-600">
+                {`Từ ${
+                  persent1 <= persent2
+                    ? convert100to15(persent1)
+                    : convert100to15(persent2)
+                } - ${
+                  persent2 >= persent1
+                    ? convert100to15(persent2)
+                    : convert100to15(persent1)
+                } triệu`}
+              </div>
               <div
                 onClick={handleClickStack}
                 id="track"
@@ -91,7 +106,7 @@ const Modal = ({ setIsShowModal, content, name }) => {
               <input
                 max="100"
                 min="0"
-                step="5"
+                step="1"
                 type="range"
                 value={persent1}
                 className="w-full appearance-none pointer-events-none absolute top-0 bottom-0"
@@ -100,12 +115,16 @@ const Modal = ({ setIsShowModal, content, name }) => {
               <input
                 max="100"
                 min="0"
-                step="5"
+                step="1"
                 type="range"
                 value={persent2}
                 className="w-full appearance-none pointer-events-none absolute top-0 bottom-0"
                 onChange={(e) => setPersent2(+e.target.value)}
               />
+              <div className="absolute z-30 top-6 left-0 right-0 flex justify-between items-center">
+                <span>0</span>
+                <span className="mr-[12px]">15 triệu +</span>
+              </div>
             </div>
           </div>
         )}
