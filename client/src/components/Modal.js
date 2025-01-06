@@ -35,23 +35,42 @@ const Modal = ({ setIsShowModal, content, name }) => {
     }
   };
 
-  const convert100to15 = (persent) =>
-    (Math.ceil(Math.round(persent * 1.5) / 5) * 5) / 10;
-  const convert15to100 = (persent) => Math.floor((persent / 15) * 100);
+  const convert100toTarget = (persent) => {
+    return name === "prices"
+      ? (Math.ceil(Math.round(persent * 1.5) / 5) * 5) / 10
+      : name === "areas"
+      ? (Math.ceil(Math.round(persent * 0.9)) / 5) * 5
+      : 0;
+  };
+
+  const convert15to100 = (persent) => {
+    let target = name === "prices" ? 15 : name === "areas" ? 90 : 1;
+    return Math.floor((persent / target) * 100);
+  };
   const getNumbers = (string) =>
     string
       .split(" ")
       .map((item) => +item)
       .filter((item) => !item === false);
-  const handlePrice = (code, value) => {
+  const getNumbersArea = (string) =>
+    string
+      .split(" ")
+      .map((item) => +item.match(/\d+/))
+      .filter((item) => item !== 0);
+  const handleActive = (code, value) => {
     setActiveEl(code);
-    let arrMaxMin = getNumbers(value);
+    let arrMaxMin =
+      name === "prices" ? getNumbers(value) : getNumbersArea(value);
     if (arrMaxMin.length === 1) {
       if (arrMaxMin[0] === 1) {
         setPersent1(0);
         setPersent2(convert15to100(1));
       }
-      if (arrMaxMin[0] === 15) {
+      if (arrMaxMin[0] === 20) {
+        setPersent1(0);
+        setPersent2(convert15to100(20));
+      }
+      if (arrMaxMin[0] === 15 || arrMaxMin[0] === 90) {
         setPersent1(100);
         setPersent2(100);
       }
@@ -63,8 +82,8 @@ const Modal = ({ setIsShowModal, content, name }) => {
   };
 
   const handleSubmit = () => {
-    console.log(convert100to15(persent1), "start");
-    console.log(convert100to15(persent2), "end");
+    console.log(convert100toTarget(persent1), "start");
+    console.log(convert100toTarget(persent2), "end");
   };
   return (
     <div
@@ -117,13 +136,13 @@ const Modal = ({ setIsShowModal, content, name }) => {
               <div className="z-30 absolute top-[-48px] font-bold text-xl text-orange-600">
                 {`Từ ${
                   persent1 <= persent2
-                    ? convert100to15(persent1)
-                    : convert100to15(persent2)
+                    ? convert100toTarget(persent1)
+                    : convert100toTarget(persent2)
                 } - ${
                   persent2 >= persent1
-                    ? convert100to15(persent2)
-                    : convert100to15(persent1)
-                } triệu`}
+                    ? convert100toTarget(persent2)
+                    : convert100toTarget(persent1)
+                } ${name === "prices" ? "triệu" : "m2"}`}
               </div>
               <div
                 onClick={handleClickStack}
@@ -176,7 +195,11 @@ const Modal = ({ setIsShowModal, content, name }) => {
                     handleClickStack(e, 100);
                   }}
                 >
-                  15 triệu +
+                  {name === "prices"
+                    ? "15 triệu +"
+                    : name === "areas"
+                    ? "Trên 90m2"
+                    : ""}
                 </span>
               </div>
             </div>
@@ -187,9 +210,9 @@ const Modal = ({ setIsShowModal, content, name }) => {
                   return (
                     <button
                       key={item.code}
-                      onClick={() => handlePrice(item.code, item.value)}
+                      onClick={() => handleActive(item.code, item.value)}
                       className={`px-4 bg-gray-200 rounded-md cursor-pointer ${
-                        item.code === activeEl ? "bg-orange-500 text-white" : ""
+                        item.code === activeEl ? "bg-[#FFA500] text-white" : ""
                       }`}
                     >
                       {item.value}
@@ -200,13 +223,15 @@ const Modal = ({ setIsShowModal, content, name }) => {
             </div>
           </div>
         )}
-        <button
-          type="button"
-          className="w-full bg-orange-400 py-2 font-medium rounded-bl-md rounded-br-md"
-          onClick={handleSubmit}
-        >
-          Áp dụng
-        </button>
+        {(name === "prices" || name === "areas") && (
+          <button
+            type="button"
+            className="w-full bg-orange-400 py-2 font-medium rounded-bl-md rounded-br-md"
+            onClick={handleSubmit}
+          >
+            ÁP DỤNG
+          </button>
+        )}
       </div>
     </div>
   );
